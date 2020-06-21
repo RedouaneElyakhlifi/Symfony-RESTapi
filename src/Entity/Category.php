@@ -9,7 +9,10 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ApiResource()
+ * @ApiResource(
+ *      collectionOperations={"get", "post"},
+ *      itemOperations={"put", "get"}
+ * )
  * @ORM\Entity(repositoryClass=CategoryRepository::class)
  */
 class Category
