@@ -7,6 +7,7 @@ use App\Repository\PostRepository;
 use DateTime;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
+use Carbon\Carbon;
 
 /**
  * @ApiResource(
@@ -99,6 +100,11 @@ class Post
     public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->created_at;
+    }
+
+    public function getCreatedAtAgo(): string
+    {
+        return Carbon::instance($this->getCreatedAt())->diffForHumans();
     }
 
     public function getCategory(): ?Category
