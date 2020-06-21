@@ -31,6 +31,7 @@ class Category
 
     /**
      * @ORM\OneToMany(targetEntity=Post::class, mappedBy="category")
+     * @ORM\JoinColumn(nullable=true)
      */
     private $posts;
 
