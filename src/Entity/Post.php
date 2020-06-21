@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\PostRepository;
+use DateTime;
+use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -48,6 +50,11 @@ class Post
      */
     private $category;
 
+    public function __construct()
+    {
+        $this->created_at = new DateTimeImmutable();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -82,9 +89,9 @@ class Post
         return $this->body;
     }
 
-    public function setBody(string $body): self
+    public function setTextBody(string $body): self
     {
-        $this->body = $body;
+        $this->body = nl2br($body);
 
         return $this;
     }
@@ -92,13 +99,6 @@ class Post
     public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->created_at;
-    }
-
-    public function setCreatedAt(\DateTimeInterface $created_at): self
-    {
-        $this->created_at = $created_at;
-
-        return $this;
     }
 
     public function getCategory(): ?Category
