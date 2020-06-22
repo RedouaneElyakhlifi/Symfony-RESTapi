@@ -18,7 +18,10 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 /**
  * @ApiResource(
  *      collectionOperations={"get", "post"},
- *      itemOperations={"put", "get"}
+ *      itemOperations={"put", "get"},
+ *      attributes={
+ *          "pagination_items_per_page"=1
+ *     }
  * )
  * 
  * @ApiFilter(BooleanFilter::class, properties={"is_published"})
