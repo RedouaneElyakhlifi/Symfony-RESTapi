@@ -56,6 +56,11 @@ class Post
      */
     private $is_published = false;
 
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $updated_at;
+
     public function __construct()
     {
         $this->created_at = new DateTimeImmutable();
@@ -132,6 +137,18 @@ class Post
     public function setIsPublished(bool $is_published): self
     {
         $this->is_published = $is_published;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updated_at;
+    }
+
+    public function setUpdatedAt(?\DateTimeInterface $updated_at): self
+    {
+        $this->updated_at = $updated_at;
 
         return $this;
     }
