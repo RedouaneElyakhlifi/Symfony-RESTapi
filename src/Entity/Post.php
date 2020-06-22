@@ -54,7 +54,7 @@ class Post
     /**
      * @ORM\Column(type="boolean")
      */
-    private $is_published;
+    private $is_published = false;
 
     public function __construct()
     {
