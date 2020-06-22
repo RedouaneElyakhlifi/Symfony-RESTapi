@@ -51,6 +51,11 @@ class Post
      */
     private $category;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $is_published;
+
     public function __construct()
     {
         $this->created_at = new DateTimeImmutable();
@@ -115,6 +120,18 @@ class Post
     public function setCategory(?Category $category): self
     {
         $this->category = $category;
+
+        return $this;
+    }
+
+    public function getIsPublished(): ?bool
+    {
+        return $this->is_published;
+    }
+
+    public function setIsPublished(bool $is_published): self
+    {
+        $this->is_published = $is_published;
 
         return $this;
     }
