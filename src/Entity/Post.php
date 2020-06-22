@@ -3,11 +3,16 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiFilter;
 use App\Repository\PostRepository;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Carbon\Carbon;
 use Symfony\Component\Serializer\Annotation\SerializedName;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+
+
 
 
 /**
@@ -15,6 +20,10 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
  *      collectionOperations={"get", "post"},
  *      itemOperations={"put", "get"}
  * )
+ * 
+ * @ApiFilter(BooleanFilter::class, properties={"is_published"})
+ * @ApiFilter(SearchFilter::class, properties={"title" : "partial"})
+ * 
  * @ORM\Entity(repositoryClass=PostRepository::class)
  */
 class Post
