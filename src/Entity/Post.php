@@ -100,6 +100,9 @@ class Post
         return $this->body;
     }
 
+    /**
+     * @SerializedName("body")
+     */
     public function setTextBody(string $body): self
     {
         $this->body = nl2br($body);
