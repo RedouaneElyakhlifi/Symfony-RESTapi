@@ -20,7 +20,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
  *      collectionOperations={"get", "post"},
  *      itemOperations={"put", "get"},
  *      attributes={
- *          "pagination_items_per_page"=1
+ *          "pagination_items_per_page"=5
  *     }
  * )
  * 
