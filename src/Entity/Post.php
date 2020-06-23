@@ -11,6 +11,7 @@ use Carbon\Carbon;
 use Symfony\Component\Serializer\Annotation\SerializedName;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 
 
@@ -19,6 +20,8 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
  * @ApiResource(
  *      collectionOperations={"get", "post"},
  *      itemOperations={"put", "get"},
+ *      normalizationContext={"groups"={"post:read"}},
+ *      denormalizationContext={"groups"={"post:write"}},
  *      attributes={
  *          "pagination_items_per_page"=5
  *     }
@@ -40,38 +43,52 @@ class Post
 
     /**
      * @ORM\Column(type="string", length=255)
+     * 
+     * @Groups({"post:read", "post:write"})
      */
     private $title;
 
     /**
      * @ORM\Column(type="string", length=1000)
+     * 
+     * @Groups({"post:read"})
      */
     private $body;
 
     /**
      * @ORM\Column(type="datetime")
+     * 
+     * @Groups({"post:read"})
      */
     private $created_at;
 
     /**
      * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="posts")
      * @ORM\JoinColumn(nullable=false)
+     * 
+     * @Groups({"post:read", "post:write"})
      */
     private $category;
 
     /**
      * @ORM\Column(type="boolean")
+     * 
+     * @Groups({"post:read", "post:write"})
      */
     private $is_published = false;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * 
+     * @Groups({"post:read"})
      */
     private $updated_at;
 
     /**
      * @ORM\ManyToOne(targetEntity=user::class, inversedBy="posts")
      * @ORM\JoinColumn(nullable=false)
+     * 
+     * @Groups({"post:read", "post:write"})
      */
     private $author;
 
@@ -104,6 +121,8 @@ class Post
 
     /**
      * @SerializedName("body")
+     * 
+     * @Groups({"post:write"})
      */
     public function setTextBody(string $body): self
     {
@@ -117,6 +136,9 @@ class Post
         return $this->created_at;
     }
 
+    /**
+     * @Groups({"post:read"})
+     */
     public function getCreatedAtAgo(): string
     {
         return Carbon::instance($this->getCreatedAt())->diffForHumans();
