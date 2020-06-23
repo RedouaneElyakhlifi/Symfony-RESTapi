@@ -7,8 +7,20 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
+ * @UniqueEntity(fields={"username"})
+ * @UniqueEntity(fields={"email"})
+ * 
+ * @ApiResource(
+ *      collectionOperations={"get", "post"},
+ *      itemOperations={"put", "get"},
+ *      normalizationContext={"groups"={"user:read"}},
+ *      denormalizationContext={"groups"={"user:write"}},
+ * )
+ * 
  * @ORM\Entity(repositoryClass=UserRepository::class)
  */
 class User implements UserInterface
@@ -22,27 +34,37 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * 
+     * @Groups({"user:write", "user:read"})
      */
     private $email;
 
     /**
      * @ORM\Column(type="json")
+     * 
+     * @Groups({"user:write"})
      */
     private $roles = [];
 
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
+     * 
+     * @Groups({"user:write"})
      */
     private $password;
 
     /**
      * @ORM\Column(type="string", length=255, unique=true)
+     * 
+     * @Groups({"user:write", "user:read"})
      */
     private $username;
 
     /**
      * @ORM\OneToMany(targetEntity=Post::class, mappedBy="author", orphanRemoval=true)
+     * 
+     * @Groups({"user:read"})
      */
     private $posts;
 
