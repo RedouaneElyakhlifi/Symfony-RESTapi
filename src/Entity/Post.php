@@ -85,7 +85,7 @@ class Post
     private $updated_at;
 
     /**
-     * @ORM\ManyToOne(targetEntity=user::class, inversedBy="posts")
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="posts")
      * @ORM\JoinColumn(nullable=false)
      * 
      * @Groups({"post:read", "post:write"})
