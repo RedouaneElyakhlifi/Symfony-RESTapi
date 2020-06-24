@@ -6,6 +6,8 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Annotation\ApiFilter;
 use App\Repository\PostRepository;
 use DateTimeImmutable;
+use DateTime;
+use DateTimeZone;
 use Doctrine\ORM\Mapping as ORM;
 use Carbon\Carbon;
 use Symfony\Component\Serializer\Annotation\SerializedName;
@@ -18,10 +20,10 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ApiResource(
- *      collectionOperations={"get", "post"},
- *      itemOperations={"put", "get"},
  *      normalizationContext={"groups"={"post:read"}},
  *      denormalizationContext={"groups"={"post:write"}},
+ *      collectionOperations={"get", "post"},
+ *      itemOperations={"put","get"},
  *      attributes={
  *          "pagination_items_per_page"=5
  *     }
@@ -30,7 +32,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ApiFilter(BooleanFilter::class, properties={"is_published"})
  * @ApiFilter(SearchFilter::class, properties={"title" : "partial"})
  * 
- * @ORM\Entity(repositoryClass=PostRepository::class)
+ * @ORM\Entity(repositoryClass=PostRepository::class) 
+ * @ORM\HasLifecycleCallbacks 
  */
 class Post
 {
@@ -44,14 +47,14 @@ class Post
     /**
      * @ORM\Column(type="string", length=255)
      * 
-     * @Groups({"post:read", "post:write"})
+     * @Groups({"post:read", "post:write", "category:read"})
      */
     private $title;
 
     /**
      * @ORM\Column(type="string", length=1000)
      * 
-     * @Groups({"post:read"})
+     * @Groups({"post:read", "category:read"})
      */
     private $body;
 
@@ -73,14 +76,14 @@ class Post
     /**
      * @ORM\Column(type="boolean")
      * 
-     * @Groups({"post:read", "post:write"})
+     * @Groups({"post:read", "post:write", "category:read"})
      */
     private $is_published = false;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
      * 
-     * @Groups({"post:read"})
+     * @Groups({"post:read", "category:read"})
      */
     private $updated_at;
 
@@ -88,14 +91,9 @@ class Post
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="posts")
      * @ORM\JoinColumn(nullable=false)
      * 
-     * @Groups({"post:read", "post:write"})
+     * @Groups({"post:read", "post:write", "category:read"})
      */
     private $author;
-
-    public function __construct()
-    {
-        $this->created_at = new DateTimeImmutable();
-    }
 
     public function getId(): ?int
     {
@@ -133,7 +131,19 @@ class Post
 
     public function getCreatedAt(): ?\DateTimeInterface
     {
-        return $this->created_at;
+        if ($this->created_at !== null) {
+
+            return date_timezone_set($this->created_at, new DateTimeZone('Europe/Brussels'));
+        }
+
+        return null;
+    }
+
+    public function setCreatedAt(?DateTimeImmutable $created_at): self
+    {
+        $this->created_at = $created_at;
+
+        return $this;
     }
 
     /**
@@ -170,10 +180,18 @@ class Post
 
     public function getUpdatedAt(): ?\DateTimeInterface
     {
-        return $this->updated_at;
+        return date_timezone_set($this->updated_at, new DateTimeZone('Europe/Brussels'));
     }
 
-    public function setUpdatedAt(?\DateTimeInterface $updated_at): self
+    /**
+     * @Groups({"post:read"})
+     */
+    public function getUpdatedAtAgo(): string
+    {
+        return Carbon::instance($this->getUpdatedAt())->diffForHumans();
+    }
+
+    public function setUpdatedAt(DateTime $updated_at): self
     {
         $this->updated_at = $updated_at;
 
@@ -190,5 +208,21 @@ class Post
         $this->author = $author;
 
         return $this;
+    }
+
+    /**
+    * @ORM\PrePersist
+    * @ORM\PreUpdate
+    */
+    public function updatedTimestamps(): void
+    {
+        $this->setUpdatedAt(new \DateTime('now'));    
+        if ($this->getCreatedAt() === null) {
+            $timestamp = new \DateTimeImmutable('now');
+            $timestamp2 = DateTime::createFromImmutable($timestamp);
+            $this->setCreatedAt($timestamp);
+            $this->setUpdatedAt($timestamp2);
+
+        }
     }
 }
