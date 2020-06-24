@@ -2,12 +2,12 @@
 
 RESTapi with symfony framework using API platform.
 
-At the moment it is an openAPI with no users. Only posts and categories.
+openAPI with users posts and categories with their correct relations.
 
-Setting up this API to eventually work with a 1-page REACT frontend app based on this API. 
+Setting up this API to eventually work with a REACT frontend app based on this API. 
 
 Coming up: 
 
-Users and more basic setups in prospect of the upcoming app in this api repository.
+Users authentication to update only their own posts.
 
-The 1 page REACT app will be in a future repository.
+A REACT app will be in a future repository.
