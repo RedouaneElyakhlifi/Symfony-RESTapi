@@ -8,6 +8,6 @@ Setting up this API to eventually work with a REACT frontend app based on this A
 
 Coming up: 
 
-Users authentication to update only their own posts.
+Users authentication to update only their own posts. And SECURITY.
 
 A REACT app will be in a future repository.
