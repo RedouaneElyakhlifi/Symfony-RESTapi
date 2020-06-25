@@ -14,6 +14,7 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 
 
@@ -48,6 +49,13 @@ class Post
      * @ORM\Column(type="string", length=255)
      * 
      * @Groups({"post:read", "post:write", "category:read"})
+     * 
+     * @Assert\NotBlank()
+     * @Assert\Length(
+     *     min=2,
+     *     max=100,
+     *     maxMessage="The title can only be 100 chars or less"
+     * )
      */
     private $title;
 
@@ -55,6 +63,13 @@ class Post
      * @ORM\Column(type="string", length=1000)
      * 
      * @Groups({"post:read", "category:read"})
+     * 
+     * @Assert\NotBlank()
+     * @Assert\Length(
+     *     min=2,
+     *     max=1000,
+     *     maxMessage="Your post can only be 1000 chars or less"
+     * )
      */
     private $body;
 

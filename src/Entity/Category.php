@@ -9,6 +9,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @UniqueEntity(fields={"name"})
@@ -34,6 +35,13 @@ class Category
      * @ORM\Column(type="string", length=255, unique=true)
      * 
      * @Groups({"category:read", "category:write", "post:read"})
+     * 
+     * @Assert\NotBlank()
+     * @Assert\Length(
+     *     min=2,
+     *     max=255,
+     *     maxMessage="Use a name for your category of 255 chars or less"
+     * )
      */
     private $name;
 
