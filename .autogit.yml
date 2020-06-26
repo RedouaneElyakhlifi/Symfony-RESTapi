@@ -31,5 +31,19 @@ index ad503f9..1ddac5b 100644
 +  sharedsymlink_after: |
 +    SYMFONY_ENV=prod composer install --no-dev --classmap-authoritative
      exit 0
+
+     diff --git a/.autogit.yml b/.autogit.yml
+index 4ab5c46..722b24b 100644
+--- a/.autogit.yml
++++ b/.autogit.yml
+@@ -13,8 +13,9 @@
+ #######################################################################################
+ 
+ # Example shared files and folders:
+-# shared_files: [ etc/config.yml ]
+-# shared_folders: [ var/log ]
++shared_files:
++  - app/config/parameters.yml
++shared_folders: [ var ]
  
  # SYMLINK: Set current symlink to newest release
