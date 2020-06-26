@@ -20,19 +20,6 @@
 # Arguments: $1 = branch, $2 = commit id, $3 = checkout folder
 
 diff --git a/.autogit.yml b/.autogit.yml
-index ad503f9..1ddac5b 100644
---- a/.autogit.yml
-+++ b/.autogit.yml
-@@ -34,7 +34,8 @@ hooks:
- #                present at every release (config, logs, ...)
-   sharedsymlink_before: |
-     exit 0
--  sharedsymlink_after: | 
-+  sharedsymlink_after: |
-+    SYMFONY_ENV=prod composer install --no-dev --classmap-authoritative
-     exit 0
-
-     diff --git a/.autogit.yml b/.autogit.yml
 index 4ab5c46..722b24b 100644
 --- a/.autogit.yml
 +++ b/.autogit.yml
