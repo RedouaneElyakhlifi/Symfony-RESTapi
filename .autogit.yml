@@ -18,19 +18,24 @@
 
 # Hooks should be Bash shell scripts and get executed at different stages during deploy
 # Arguments: $1 = branch, $2 = commit id, $3 = checkout folder
-
 diff --git a/.autogit.yml b/.autogit.yml
-index 4ab5c46..722b24b 100644
+index 37fdc61..eca3762 100644
 --- a/.autogit.yml
 +++ b/.autogit.yml
-@@ -13,8 +13,9 @@
- #######################################################################################
+@@ -29,6 +29,7 @@ hooks:
+   install_before: |
+     exit 0
+   install_after: |
++    rm -Rf var/ # Get rid of the git var folder
+     exit 0
  
- # Example shared files and folders:
--# shared_files: [ etc/config.yml ]
--# shared_folders: [ var/log ]
-+shared_files:
-+  - app/config/parameters.yml
-+shared_folders: [ var ]
- 
- # SYMLINK: Set current symlink to newest release
+ # SHAREDSYMLINK: Create symlink to shared files and folders
+@@ -36,6 +37,9 @@ hooks:
+   sharedsymlink_before: |
+     exit 0
+   sharedsymlink_after: |
++    mkdir -p var/cache
++    mkdir -p var/logs
++    mkdir -p var/sessions
+     SYMFONY_ENV=prod composer install --no-dev --classmap-authoritative --prefer-dist
+     exit 0
