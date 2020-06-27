@@ -13,7 +13,8 @@
 #######################################################################################
 
 # Example shared files and folders:
-# shared_files: [ etc/config.yml ]
+shared_files: 
+  /.env
 shared_folders: 
   [ var ]
 
