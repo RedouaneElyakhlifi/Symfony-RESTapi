@@ -38,8 +38,7 @@ hooks:
 #                present at every release (config, logs, ...)
   sharedsymlink_before: |
     exit 0
-  sharedsymlink_after: |
-    SYMFONY_ENV=prod composer install --no-dev --classmap-authoritative
+  sharedsymlink_after: | 
     exit 0
 
 # SYMLINK: Set current symlink to newest release
