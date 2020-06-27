@@ -14,7 +14,8 @@
 
 # Example shared files and folders:
 # shared_files: [ etc/config.yml ]
-# shared_folders: [ var/log ]
+shared_folders: 
+  [ var ]
 
 # Hooks should be Bash shell scripts and get executed at different stages during deploy
 # Arguments: $1 = branch, $2 = commit id, $3 = checkout folder
@@ -36,12 +37,15 @@ hooks:
   sharedsymlink_before: |
     exit 0
   sharedsymlink_after: | 
+    mkdir -p var/cache
+    mkdir -p var/logs
     exit 0
 
 # SYMLINK: Set current symlink to newest release
   symlink_before: |
     exit 0
   symlink_after: |
+    SYMFONY_ENV=prod composer install --no-dev --classmap-authoritative
     exit 0
 
 # CLEANUP: Cleanup old releases, two most recent releases remaining
