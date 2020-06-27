@@ -1,6 +1,6 @@
 # Symfony-RESTapi
 
-RESTapi with symfony framework using API platform.
+RESTapi with symfony framework using API platform. Built as a skeleton framework.
 
 openAPI with users posts and categories with their correct relations.
 
@@ -8,6 +8,4 @@ Setting up this API to eventually work with a REACT frontend app based on this A
 
 Coming up: 
 
-Users authentication to update only their own posts. And SECURITY.
-
-A REACT app will be in a future repository.
+A full website-app version in an other repository.
