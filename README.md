@@ -1,6 +1,6 @@
 # Symfony-RESTapi
 
-RESTapi with symfony framework using API platform. Built as a skeleton framework.
+RESTapi with symfony framework using API platform. Built as a skeleton framework just to get familiar with API platform and how it works.
 
 openAPI with users posts and categories with their correct relations.
 
