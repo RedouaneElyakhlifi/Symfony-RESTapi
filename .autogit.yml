@@ -14,7 +14,7 @@
 
 # Example shared files and folders:
 shared_files: 
-  /.env
+  .env
 shared_folders: 
   [ var ]
 
