@@ -30,6 +30,7 @@ hooks:
   install_before: |
     exit 0
   install_after: |
+    rm -Rf var/ 
     exit 0
 
 # SHAREDSYMLINK: Create symlink to shared files and folders
@@ -45,7 +46,7 @@ hooks:
   symlink_before: |
     exit 0
   symlink_after: |
-    SYMFONY_ENV=prod composer install --no-dev --classmap-authoritative
+    SYMFONY_ENV=prod composer install --no-dev --classmap-authoritative --prefer-dist
     exit 0
 
 # CLEANUP: Cleanup old releases, two most recent releases remaining
